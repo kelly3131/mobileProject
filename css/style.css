@@ -160,6 +160,7 @@
       border-width: 0.1rem;
       border-style: solid;
       font-size: 1.6rem;
+      border-radius: 0.6rem;
       &.radius {
         border-radius: 6rem;
       }
@@ -209,6 +210,17 @@
 
   }
 }
+@layer individual-button{}
+@layer button-layout{
+  .btn-group1 {
+    display: grid;
+    grid-template-columns: minmax(11rem, 1fr) 4fr;
+    /* 1fr 4fr 1:4 4개의 영역을 차지하는것 */
+    /* grid-template-columns: 10.4rem 1fr; */
+    gap: 0.4rem;
+    width: 100%;
+  }
+}
 
   .btn-search {
     width: 3.2rem;
@@ -218,6 +230,16 @@
     }
     .white & {
       background: url(../images/ico_search_blue.svg) no-repeat center / 1.6rem auto;
+    }
+  }
+  .btn-prev {
+    width: 3.2rem;
+    height: 3.2rem;
+    .blue & {
+      background: url(../images/ico_prev_blue.svg) no-repeat center / 1.6rem auto;
+    }
+    .white & {
+      background: url(../images/ico_prev.svg) no-repeat center / 1.6rem auto;
     }
   }
   .btn-menu {
@@ -316,6 +338,14 @@
         background: url(../images/ico_mobile.svg) no-repeat 0 0 / contain;
       }
     }
+    &.ico2 {
+      &::before {
+        content: "";
+        width: 0.8rem;
+        height: 1.2rem;
+        background: url(../images/ico_btn2.svg) no-repeat 0 0 / contain;
+      }
+    }
     &.fullsize {
       width: 100%;
     }
@@ -344,6 +374,14 @@
     &.vb {
       align-items: flex-end;
     }
+    &.fix-bottom {
+      position: fixed;
+      left: 0; right:0; bottom:0;
+      z-index: var(--zindex, 10);
+      background: var(--white);
+      padding: 2rem 1.6rem 2.4rem;
+      /* z-index: 는 변수로 뺄거다; */
+    }
   }
   .txt-center {
     text-align: center;
@@ -360,12 +398,34 @@
   .mt10 {
     margin-top: 1rem;
   }
+  .mt32{
+    margin-top: 3.2rem;
+  }
   .mt24 {
     margin-top: 2.4rem;
   }
+  .mt25 {
+    margin-top: 2.5rem;
+  }
+  .mt34{
+    margin-top: 3.4rem;
+  }
+
   .basic-space{
     padding: 0 1.6rem;
+    padding: 0 var(--space);
     box-sizing: border-box;
+    &[class*="line"] {
+      padding: 0;
+      margin: 0 var(--space);
+    }
+    &[class*="table"] {
+      padding: 0;
+      margin: 0 var(--space);
+      width: calc(100% - var(--space) * 2);
+      /* 사칙연산의 식은 공백이 있어야한다. 붙으며안됨 뺄셈 덧셈..
+      곱하기는 먼저 계산되니 굳이 괄호로 감싸지 않아도 된다 */
+    }
 
   }
 }
@@ -458,7 +518,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      & span {
+      > * {
+        /* > * 모든 요소 */
         color: var(--gray4b);
         font-size: 1rem;
         line-height: 1rem;
@@ -650,6 +711,10 @@
         font-size: 1.4rem;
         line-height: 1;
         font-weight: 700;
+        table & {
+          font-weight: 400;
+          color: var(--gray4b);
+        }
         letter-spacing: -0.05rem;
         + li {
           &::before {
@@ -661,6 +726,9 @@
         }
         &:last-child{
           color: var(--blue);
+          table & {
+            color: var(--gray4b);
+          }
         }
       }
     }
@@ -781,7 +849,7 @@
     }
   }
   @layer table {
-    table.type1 {
+    .table-type1 {
       & th,
       & td {
         padding: 0.6rem 0;
@@ -805,7 +873,8 @@
       }
     }
 
-    table.type2 {
+    .table-type2 {
+      border-bottom: 0.1rem solid var(--grayea);
       & th,
       & td {
         padding: 1.2rem 0;
@@ -819,9 +888,11 @@
         font-weight: 400;
         line-height: 100%;
         letter-spacing: -0.05rem;
+        text-align: left;
       }
       & td {
         color: var(--gray4b);
+        line-height: 1.4rem;
         line-height: 1.4rem;
       }
       & tr {
@@ -829,7 +900,7 @@
       }
     }
 
-    table.type3 {
+    .table-type3 {
       & thead {
         & th {
           height: 4.2rem;
@@ -987,7 +1058,20 @@
 @layer typegraph{
   .post-information{
     color: var(--gray21);
+    font-size: 1.6rem;
+    line-height: 100%;
+    letter-spacing: -0.05rem;
     /* font-size:; */
+  }
+  .heading {
+    /* h2라는 실제  헤딩요소를 쓰니까 heading 으로 클래스명*/
+    &.regular {
+      color: var(--gray21);
+
+    }
+  }
+  .txt-blue {
+    color: var(--blue)
   }
 }
 /* 
